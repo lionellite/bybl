@@ -1,0 +1,16 @@
+{% extends "bible/base.html" %}
+{% block content %}
+<h2>Résultats pour « {{ query }} »</h2>
+{% if verses %}
+  <ul>
+  {% for v in verses %}
+    <li>
+      <strong>{{ v.chapter.book }} {{ v.chapter.number }}:{{ v.number }}</strong><br>
+      {{ v.text|safe }}
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>Aucun verset trouvé.</p>
+{% endif %}
+{% endblock %}

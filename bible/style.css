@@ -1,0 +1,7 @@
+body{font-family:system-ui, sans-serif; margin:0; padding:0 1rem}
+header{display:flex; justify-content:space-between; align-items:center}
+.book-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(9rem, 1fr)); gap:.5rem}
+.chap-nav a{margin-right:.3rem; padding:.2rem .4rem; border:1px solid #ccc}
+.chap-nav a.active{background:#222; color:#fff}
+.verses{line-height:1.7; margin:1rem 0}
+.prev-next{display:flex; justify-content:space-between}

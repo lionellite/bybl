@@ -1,0 +1,28 @@
+{% extends "bible/base.html" %}
+{% block content %}
+<h2>Choisissez un livre</h2>
+
+<h3>Ancien Testament</h3>
+<ul class="book-grid">
+  {% for b in books %}
+    {% if b.testament == "O" %}
+      <li>
+        <a href="{% url 'read' b.idx %}">{{ b.name }}</a>
+        <p>{{ b.description }}</p>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+<h3>Nouveau Testament</h3>
+<ul class="book-grid">
+  {% for b in books %}
+    {% if b.testament == "N" %}
+      <li>
+        <a href="{% url 'read' b.idx %}">{{ b.name }}</a>
+        <p>{{ b.description }}</p>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}

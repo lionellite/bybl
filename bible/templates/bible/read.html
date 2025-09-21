@@ -1,0 +1,21 @@
+{% extends "bible/base.html" %}
+{% block content %}
+<nav class="chap-nav">
+  {% for ch in chapters %}
+    <a class="{% if ch == chapter %}active{% endif %}"
+       href="{% url 'read_chap' book.idx ch.number %}">{{ ch.number }}</a>
+  {% endfor %}
+</nav>
+
+<h2>{{ book }} {{ chapter.number }}</h2>
+<div class="verses">
+  {% for v in verses %}
+    <sup>{{ v.number }}</sup> {{ v.text }}<br>
+  {% endfor %}
+</div>
+
+<div class="prev-next">
+  {% if prev %}<a href="{% url 'read_chap' book.idx prev.number %}">← {{ prev.number }}</a>{% endif %}
+  {% if next %}<a href="{% url 'read_chap' book.idx next.number %}">{{ next.number }} →</a>{% endif %}
+</div>
+{% endblock %}

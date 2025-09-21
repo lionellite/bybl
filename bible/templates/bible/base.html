@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Bible en ligne</title>
+    <link rel="stylesheet" href="/static/bible/style.css">
+</head>
+<body>
+<header>
+    <h1><a href="{% url 'home' %}">Bible en ligne</a></h1>
+    <form action="{% url 'search' %}" method="get">
+        <input type="text" name="q" placeholder="Rechercher…" value="{{ query }}">
+        <button>🔍</button>
+    </form>
+</header>
+<main>
+<div class="container">
+{% block content %}
+{% endblock %}
+</div>
+</main>
+</body>
+</html>
