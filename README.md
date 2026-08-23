@@ -22,7 +22,7 @@ L’application est ensuite disponible à l’adresse <http://127.0.0.1:8000/>. 
 
 Les paramètres sensibles et dépendants de l’environnement sont définis par variables : `DJANGO_SECRET_KEY`, `DJANGO_DEBUG`, `DJANGO_ALLOWED_HOSTS` et `DJANGO_CSRF_TRUSTED_ORIGINS`. En production, utilisez une clé secrète aléatoire, désactivez le mode debug et renseignez les hôtes autorisés.
 
-La base SQLite est adaptée au développement et aux petits déploiements. Pour une charge plus importante, adaptez la section `DATABASES` de `bybl/settings.py` à un serveur de base de données dédié.
+La base SQLite est adaptée au développement et aux petits déploiements. Pour PostgreSQL, installez les dépendances du projet puis définissez `DJANGO_DB_ENGINE=postgresql`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` et `POSTGRES_PORT`. La recherche plein texte utilise alors le dictionnaire français et un index GIN; SQLite conserve un fallback compatible pour le développement local.
 
 ## API
 
@@ -45,6 +45,11 @@ Les endpoints de liste sont paginés. La taille par défaut est de 50 éléments
 python manage.py check
 python manage.py test
 python manage.py check --deploy
+python manage.py makemigrations --check --dry-run
 ```
 
-Le fichier `data/bible-fr.json` est la source d’import. La commande `load_bible` vérifie le nombre de livres, utilise les noms canoniques définis dans le code, reconstruit les chapitres et versets dans une transaction atomique, puis signale le bilan de l’import.
+La CI GitHub exécute ces contrôles sur Python 3.11 et 3.12 avec SQLite, ainsi que sur PostgreSQL 16. Le fichier `data/bible-fr.json` est la source d’import. La commande `load_bible` vérifie le nombre de livres, utilise les noms canoniques définis dans le code, reconstruit les chapitres et versets dans une transaction atomique, puis signale le bilan de l’import.
+
+## Droits sur les données
+
+Le statut de redistribution de la traduction `FRC97` n’est pas considéré comme établi par le dépôt. Consultez `DATA_LICENSE.md` avant toute diffusion publique, commerciale ou exposition durable par API; cette notice contient la provenance, les sources publiques et la procédure de demande d’autorisation.

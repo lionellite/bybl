@@ -1,6 +1,8 @@
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404, render
+from django.db import connection
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
 
 from bible.models import Book, Chapter, Verse
 
@@ -50,11 +52,22 @@ def search(request):
     verses = Verse.objects.none()
 
     if query:
-        verses = (
-            Verse.objects.filter(Q(text__icontains=query))
-            .select_related("chapter__book")
-            .order_by("chapter__book__idx", "chapter__number", "number")
-        )
+        verses = Verse.objects.select_related("chapter__book")
+        if connection.vendor == "postgresql":
+            search_vector = SearchVector("text", config="french")
+            search_query = SearchQuery(query, config="french", search_type="websearch")
+            verses = (
+                verses.annotate(
+                    search=search_vector,
+                    rank=SearchRank(search_vector, search_query),
+                )
+                .filter(search=search_query)
+                .order_by("-rank", "chapter__book__idx", "chapter__number", "number")
+            )
+        else:
+            verses = verses.filter(Q(text__icontains=query)).order_by(
+                "chapter__book__idx", "chapter__number", "number"
+            )
 
     paginator = Paginator(verses, SEARCH_PAGE_SIZE)
     page = paginator.get_page(request.GET.get("page"))

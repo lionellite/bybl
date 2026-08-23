@@ -13,7 +13,7 @@
 
 ## Prochaines évolutions
 
-- [ ] Ajouter une recherche plein texte adaptée à une forte volumétrie.
-- [ ] Prévoir une base PostgreSQL pour les déploiements à trafic élevé.
-- [ ] Ajouter une chaîne CI avec tests, contrôles de sécurité et collecte des statiques.
-- [ ] Vérifier les droits de redistribution de la traduction avant toute diffusion commerciale.
+- [x] Ajouter une recherche plein texte PostgreSQL avec fallback SQLite.
+- [x] Préparer le mode PostgreSQL pour les déploiements à trafic élevé.
+- [x] Ajouter une chaîne CI avec tests, contrôles de sécurité et validation PostgreSQL.
+- [ ] Obtenir et archiver l’autorisation écrite de redistribution de la traduction avant toute diffusion commerciale.

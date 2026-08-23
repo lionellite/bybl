@@ -39,8 +39,17 @@ La commande `load_bible` vérifie la structure générale et le nombre attendu d
 | Import local `python manage.py load_bible` | Réussi, 66 livres, 1 189 chapitres, 30 742 versets. |
 | Vérification navigateur de l’accueil, de Genèse 1, de la recherche et de `/api/books/` | Réussie. |
 
-## Risques résiduels et recommandations
+## Recommandations appliquées
 
-La base SQLite reste adaptée au développement et aux petits déploiements, mais une base serveur est recommandée dès que la charge ou les écritures concurrentes augmentent. La recherche repose encore sur `icontains`; pour une volumétrie et une fréquence de recherche supérieures, un moteur de recherche ou un index adapté devra être envisagé.
+La recherche utilise désormais PostgreSQL Full Text Search avec `SearchVector`, une configuration française, `websearch` et un classement par pertinence. Une migration multi-base ajoute un index GIN sur `to_tsvector('french', text)` lorsque la base est PostgreSQL; SQLite conserve le fallback `icontains` pour le développement local. La configuration permet de sélectionner PostgreSQL avec `DJANGO_DB_ENGINE=postgresql` et les variables `POSTGRES_*`, tandis que SQLite reste le défaut sans configuration.
 
-Le dépôt de données `data/bible-fr.json` contient une traduction biblique dont les conditions de redistribution doivent être vérifiées avant une diffusion commerciale ou un changement de périmètre. Enfin, le proxy de production doit effectivement retirer les en-têtes transférés non fiables avant d’ajouter `X-Forwarded-Proto`.
+Une CI GitHub a été ajoutée dans `.github/workflows/ci.yml`. Elle exécute les contrôles Django, les migrations, les tests et la compilation sur Python 3.11 et 3.12 avec SQLite, ainsi qu’une vérification dédiée PostgreSQL 16 avec service de base de données. La feuille de route est ainsi réduite aux évolutions qui nécessitent un choix produit ou infrastructurel.
+
+La provenance et le statut de diffusion de `data/bible-fr.json` sont maintenant documentés dans `DATA_LICENSE.md`. La recherche publique confirme que le Français courant de 1997 a été profondément révisé dans la Nouvelle Français courant de 2019 [1]. Les éditions Bibli’O demandent une autorisation pour utiliser leurs traductions et déclarent leurs contenus protégés [2]. Le dépôt ne prétend donc pas disposer d’une licence de redistribution pour FRC97 : une autorisation écrite couvrant l’usage prévu doit être obtenue avant diffusion publique durable, commerciale ou par API.
+
+Le réglage `SECURE_PROXY_SSL_HEADER` reste documenté avec l’exigence opérationnelle que le proxy de production retire les en-têtes transférés non fiables avant d’ajouter `X-Forwarded-Proto`.
+
+## Références
+
+[1]: https://editionsbiblio.fr/collections/nouvelle-francais-courant "Éditions Bibli’O — Bibles en version Nouvelle Français courant"
+[2]: https://editionsbiblio.fr/pages/obtenir-des-droits "Éditions Bibli’O — Obtenir des droits et utiliser nos traductions de la Bible"
