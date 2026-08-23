@@ -1,23 +1,26 @@
+{% load static %}
 <!doctype html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Bible en ligne</title>
-    <link rel="stylesheet" href="/static/bible/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Lire et rechercher la Bible en ligne.">
+    <title>{% block title %}Bible en ligne{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bible/style.css' %}">
 </head>
 <body>
-<header>
-    <h1><a href="{% url 'home' %}">Bible en ligne</a></h1>
-    <form action="{% url 'search' %}" method="get">
-        <input type="text" name="q" placeholder="Rechercher…" value="{{ query }}">
-        <button>🔍</button>
-    </form>
+<header class="site-header">
+    <div class="header-inner">
+        <h1><a href="{% url 'home' %}">Bible en ligne</a></h1>
+        <form class="search-form" action="{% url 'search' %}" method="get" role="search">
+            <label class="sr-only" for="site-search">Rechercher dans le texte biblique</label>
+            <input id="site-search" type="search" name="q" maxlength="100" placeholder="Rechercher…" value="{{ query|default:'' }}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
 </header>
-<main>
-<div class="container">
-{% block content %}
-{% endblock %}
-</div>
+<main class="container">
+{% block content %}{% endblock %}
 </main>
 </body>
 </html>

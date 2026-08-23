@@ -1,16 +1,43 @@
 {% extends "bible/base.html" %}
+
+{% block title %}Recherche{% if query %} : {{ query }}{% endif %} — Bible en ligne{% endblock %}
+
 {% block content %}
-<h2>Résultats pour « {{ query }} »</h2>
-{% if verses %}
-  <ul>
-  {% for v in verses %}
-    <li>
-      <strong>{{ v.chapter.book }} {{ v.chapter.number }}:{{ v.number }}</strong><br>
-      {{ v.text|safe }}
-    </li>
-  {% endfor %}
-  </ul>
-{% else %}
-  <p>Aucun verset trouvé.</p>
-{% endif %}
+<section class="search-results" aria-labelledby="search-title">
+    <h2 id="search-title">
+        {% if query %}Résultats pour « {{ query }} »{% else %}Rechercher dans la Bible{% endif %}
+    </h2>
+
+    {% if query %}
+        <p class="result-count">{{ page_obj.paginator.count }} résultat{{ page_obj.paginator.count|pluralize }}.</p>
+        {% if page_obj.object_list %}
+            <ol class="verse-results">
+            {% for verse in page_obj %}
+                <li>
+                    <a class="verse-reference" href="{% url 'read_chap' verse.chapter.book.idx verse.chapter.number %}#verset-{{ verse.number }}">
+                        {{ verse.chapter.book }} {{ verse.chapter.number }}:{{ verse.number }}
+                    </a>
+                    <p>{{ verse.text }}</p>
+                </li>
+            {% endfor %}
+            </ol>
+
+            {% if page_obj.has_other_pages %}
+                <nav class="pagination" aria-label="Pages de résultats">
+                    {% if page_obj.has_previous %}
+                        <a href="?q={{ query|urlencode }}&amp;page={{ page_obj.previous_page_number }}" rel="prev">Précédente</a>
+                    {% endif %}
+                    <span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?q={{ query|urlencode }}&amp;page={{ page_obj.next_page_number }}" rel="next">Suivante</a>
+                    {% endif %}
+                </nav>
+            {% endif %}
+        {% else %}
+            <p class="empty-state">Aucun verset trouvé pour cette recherche.</p>
+        {% endif %}
+    {% else %}
+        <p class="empty-state">Saisissez un mot ou une expression dans le champ de recherche.</p>
+    {% endif %}
+</section>
 {% endblock %}

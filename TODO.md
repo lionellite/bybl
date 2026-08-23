@@ -1,5 +1,19 @@
-# TODO: Améliorer le Frontend avec Design Chrétien
+# Feuille de route Bybl
 
-- [x] Modifier bible/static/bible/style.css pour design chrétien (police serif, couleurs, cartes, etc.)
-- [x] Ajuster bible/templates/bible/base.html (container, symbole croix)
-- [ ] Tester le design en lançant le serveur local
+## Réalisé
+
+- [x] Moderniser l’interface de lecture et le design responsive.
+- [x] Corriger les imports manquants des vues et de l’API.
+- [x] Sécuriser la configuration Django par variables d’environnement.
+- [x] Supprimer le rendu `safe` des textes bibliques.
+- [x] Ajouter la pagination HTML et REST.
+- [x] Rendre l’import atomique, validé et optimisé.
+- [x] Ajouter les contraintes d’intégrité et les tests de non-régression.
+- [x] Documenter l’installation et l’exploitation.
+
+## Prochaines évolutions
+
+- [x] Ajouter une recherche plein texte PostgreSQL avec fallback SQLite.
+- [x] Préparer le mode PostgreSQL pour les déploiements à trafic élevé.
+- [x] Ajouter une chaîne CI avec tests, contrôles de sécurité et validation PostgreSQL.
+- [ ] Réévaluer la provenance, la déclaration de licence et la portée territoriale si la source LSG1910 est remplacée.
