@@ -24,7 +24,7 @@ L’interface de lecture a été modernisée sans dépendance externe. Elle disp
 
 L’API expose désormais `short_name` pour les livres et applique une pagination uniforme. Les requêtes de détail utilisent `select_related` lorsque cela évite des accès relationnels supplémentaires. Les modèles possèdent des contraintes explicites d’unicité et de positivité pour les livres, chapitres et versets.
 
-La commande `load_bible` vérifie la structure générale et le nombre attendu de livres, associe les noms et abréviations canoniques, importe 66 livres dans une transaction atomique et signale le bilan. Une exécution locale a produit 66 livres, 1 189 chapitres et 30 742 versets.
+La commande `load_bible` vérifie la structure générale et le nombre attendu de livres, associe les noms et abréviations canoniques, importe 66 livres dans une transaction atomique et signale le bilan. Une exécution locale avec LSG1910 a produit 66 livres, 1 189 chapitres et 31 102 versets.
 
 ## Vérifications réalisées
 
@@ -36,7 +36,7 @@ La commande `load_bible` vérifie la structure générale et le nombre attendu d
 | `python manage.py makemigrations --check --dry-run` | Réussi, aucune migration manquante. |
 | `python -m compileall -q api bible bybl manage.py` | Réussi. |
 | `git diff --check` | Réussi. |
-| Import local `python manage.py load_bible` | Réussi, 66 livres, 1 189 chapitres, 30 742 versets. |
+| Import local `python manage.py load_bible` | Réussi avec LSG1910, 66 livres, 1 189 chapitres, 31 102 versets. |
 | Vérification navigateur de l’accueil, de Genèse 1, de la recherche et de `/api/books/` | Réussie. |
 
 ## Recommandations appliquées
@@ -45,11 +45,11 @@ La recherche utilise désormais PostgreSQL Full Text Search avec `SearchVector`,
 
 Une CI GitHub a été ajoutée dans `.github/workflows/ci.yml`. Elle exécute les contrôles Django, les migrations, les tests et la compilation sur Python 3.11 et 3.12 avec SQLite, ainsi qu’une vérification dédiée PostgreSQL 16 avec service de base de données. La feuille de route est ainsi réduite aux évolutions qui nécessitent un choix produit ou infrastructurel.
 
-La provenance et le statut de diffusion de `data/bible-fr.json` sont maintenant documentés dans `DATA_LICENSE.md`. La recherche publique confirme que le Français courant de 1997 a été profondément révisé dans la Nouvelle Français courant de 2019 [1]. Les éditions Bibli’O demandent une autorisation pour utiliser leurs traductions et déclarent leurs contenus protégés [2]. Le dépôt ne prétend donc pas disposer d’une licence de redistribution pour FRC97 : une autorisation écrite couvrant l’usage prévu doit être obtenue avant diffusion publique durable, commerciale ou par API.
+La provenance et le statut de diffusion de `data/bible-fr.json` sont documentés dans `DATA_LICENSE.md`. Le fichier utilise désormais Louis Segond 1910; la source retenue porte la déclaration exacte `This Bible is in the Public Domain.` [1]. Le dépôt conserve l’identifiant de fichier source, l’URL de provenance et la restriction de périmètre afin de ne pas confondre cette édition avec des révisions ou appareils critiques différents.
 
 Le réglage `SECURE_PROXY_SSL_HEADER` reste documenté avec l’exigence opérationnelle que le proxy de production retire les en-têtes transférés non fiables avant d’ajouter `X-Forwarded-Proto`.
 
 ## Références
 
-[1]: https://editionsbiblio.fr/collections/nouvelle-francais-courant "Éditions Bibli’O — Bibles en version Nouvelle Français courant"
-[2]: https://editionsbiblio.fr/pages/obtenir-des-droits "Éditions Bibli’O — Obtenir des droits et utiliser nos traductions de la Bible"
+[1]: https://www.biblesupersearch.com/bible-downloads/ "Bible SuperSearch — Bible Downloads et déclarations de droits"
+[2]: https://downloads.biblesupersearch.com/bibles/json/bibles_json_6.0.zip "Bible SuperSearch — paquet JSON 6.0 contenant FR-French/segond_1910.json"

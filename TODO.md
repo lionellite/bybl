@@ -16,4 +16,4 @@
 - [x] Ajouter une recherche plein texte PostgreSQL avec fallback SQLite.
 - [x] Préparer le mode PostgreSQL pour les déploiements à trafic élevé.
 - [x] Ajouter une chaîne CI avec tests, contrôles de sécurité et validation PostgreSQL.
-- [ ] Obtenir et archiver l’autorisation écrite de redistribution de la traduction avant toute diffusion commerciale.
+- [ ] Réévaluer la provenance, la déclaration de licence et la portée territoriale si la source LSG1910 est remplacée.

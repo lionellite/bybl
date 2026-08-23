@@ -52,4 +52,4 @@ La CI GitHub exécute ces contrôles sur Python 3.11 et 3.12 avec SQLite, ainsi 
 
 ## Droits sur les données
 
-Le statut de redistribution de la traduction `FRC97` n’est pas considéré comme établi par le dépôt. Consultez `DATA_LICENSE.md` avant toute diffusion publique, commerciale ou exposition durable par API; cette notice contient la provenance, les sources publiques et la procédure de demande d’autorisation.
+Le texte fourni est désormais **Louis Segond 1910 (LSG1910)**. La source de données consultée le marque comme domaine public et sa provenance exacte est conservée dans `data/bible-fr.json`. Consultez `DATA_LICENSE.md` avant toute diffusion publique, commerciale ou exposition durable par API; cette notice précise le périmètre de la déclaration et les précautions à conserver.
