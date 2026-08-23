@@ -1,21 +1,30 @@
 {% extends "bible/base.html" %}
+
+{% block title %}{{ book }} {{ chapter.number }} — Bible en ligne{% endblock %}
+
 {% block content %}
-<nav class="chap-nav">
-  {% for ch in chapters %}
-    <a class="{% if ch == chapter %}active{% endif %}"
-       href="{% url 'read_chap' book.idx ch.number %}">{{ ch.number }}</a>
-  {% endfor %}
+<nav class="chap-nav" aria-label="Chapitres de {{ book }}">
+    {% for ch in chapters %}
+        <a class="{% if ch == chapter %}active{% endif %}"
+           aria-current="{% if ch == chapter %}page{% endif %}"
+           href="{% url 'read_chap' book.idx ch.number %}">{{ ch.number }}</a>
+    {% endfor %}
 </nav>
 
-<h2>{{ book }} {{ chapter.number }}</h2>
-<div class="verses">
-  {% for v in verses %}
-    <sup>{{ v.number }}</sup> {{ v.text }}<br>
-  {% endfor %}
-</div>
+<article class="reading">
+    <header class="reading-header">
+        <p class="eyebrow">Lecture</p>
+        <h2>{{ book }} <span>{{ chapter.number }}</span></h2>
+    </header>
+    <div class="verses">
+        {% for verse in verses %}
+            <p id="verset-{{ verse.number }}"><sup aria-label="Verset {{ verse.number }}">{{ verse.number }}</sup> {{ verse.text }}</p>
+        {% endfor %}
+    </div>
+</article>
 
-<div class="prev-next">
-  {% if prev %}<a href="{% url 'read_chap' book.idx prev.number %}">← {{ prev.number }}</a>{% endif %}
-  {% if next %}<a href="{% url 'read_chap' book.idx next.number %}">{{ next.number }} →</a>{% endif %}
-</div>
+<nav class="prev-next" aria-label="Navigation entre les chapitres">
+    {% if prev %}<a href="{% url 'read_chap' book.idx prev.number %}" rel="prev">← Chapitre {{ prev.number }}</a>{% else %}<span></span>{% endif %}
+    {% if next %}<a href="{% url 'read_chap' book.idx next.number %}" rel="next">Chapitre {{ next.number }} →</a>{% endif %}
+</nav>
 {% endblock %}

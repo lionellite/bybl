@@ -1,28 +1,30 @@
 {% extends "bible/base.html" %}
+
+{% block title %}Bible en ligne{% endblock %}
+
 {% block content %}
-<h2>Choisissez un livre</h2>
+<section class="hero" aria-labelledby="home-title">
+    <p class="eyebrow">Texte biblique</p>
+    <h2 id="home-title">Choisissez un livre</h2>
+    <p class="intro">Parcourez les livres de l’Ancien et du Nouveau Testament, ou recherchez directement un passage.</p>
+</section>
 
-<h3>Ancien Testament</h3>
-<ul class="book-grid">
-  {% for b in books %}
-    {% if b.testament == "O" %}
-      <li>
-        <a href="{% url 'read' b.idx %}">{{ b.name }}</a>
-        <p>{{ b.description }}</p>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-
-<h3>Nouveau Testament</h3>
-<ul class="book-grid">
-  {% for b in books %}
-    {% if b.testament == "N" %}
-      <li>
-        <a href="{% url 'read' b.idx %}">{{ b.name }}</a>
-        <p>{{ b.description }}</p>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
+{% for testament in testament_groups %}
+    <section class="testament" aria-labelledby="{{ testament.label|slugify }}-title">
+        <h3 id="{{ testament.label|slugify }}-title">{{ testament.label }}</h3>
+        <ul class="book-grid">
+        {% for book in testament.books %}
+            <li>
+                <a href="{% url 'read' book.idx %}">
+                    <span class="book-short-name">{{ book.short_name }}</span>
+                    <span class="book-name">{{ book.name }}</span>
+                </a>
+                {% if book.description %}<p>{{ book.description }}</p>{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+{% empty %}
+    <p class="empty-state">Aucun livre n’est disponible pour le moment.</p>
+{% endfor %}
 {% endblock %}

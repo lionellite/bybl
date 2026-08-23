@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Django/runtime output
+*.sqlite3
+staticfiles/
+media/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Tooling
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
