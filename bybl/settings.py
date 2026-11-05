@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
     "local-only-bybl-development-secret-please-replace-before-deployment-7f4e9a2c1b8d6m3p",
 )
 DEBUG = env_bool("DJANGO_DEBUG", False)
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['*']
 """    host.strip()
     for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
     if host.strip()
